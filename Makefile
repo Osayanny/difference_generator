@@ -22,4 +22,4 @@ package-install:
 	pip install dist/*.whl
 
 package-reinstall:
-	pip install --upgrade --force-reinstall hexlet-code
+	pip install --upgrade --force-reinstall dist/*.whl
