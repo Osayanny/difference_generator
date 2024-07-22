@@ -1,14 +1,9 @@
 import json
 
 
-def open_json(file):
-    file_data = json.load(open(file))
-    return file_data
-
-
 def generate_diff(file1, file2):
-    first_file_data = open_json(file1)
-    second_file_data = open_json(file2)
+    first_file_data = json.load(open(file1))
+    second_file_data = json.load(open(file2))
     result = []
 
     keys = first_file_data.keys() | second_file_data.keys()
