@@ -22,5 +22,5 @@ def generate_diff(file1, file2):
     result.append('}')
 
     result = list(map(str.lower, result))
-    
+
     return '\n'.join(result)
