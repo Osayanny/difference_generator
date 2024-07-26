@@ -4,4 +4,4 @@ jobs:
     gendiff_check:
         runs-on: ubuntu-latest
         steps:
-            - run: poetry run pytest
+            - run: make test
