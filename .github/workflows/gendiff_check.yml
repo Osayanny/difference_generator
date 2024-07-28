@@ -16,13 +16,13 @@ jobs:
           python-version: ${{matrix.python-version}}
 
       - name: Install dependencies
-        run:
+        run: |
           pip install poetry
           make install
           poetry add pytest-cov
 
       - name: start tests and linter
-        run:
+        run: |
           make check
 
       - name: code coverage and publish
