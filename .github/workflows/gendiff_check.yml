@@ -18,9 +18,10 @@ jobs:
       - name: Install dependencies
         run: |
           pip install poetry
-          make install
           poetry add pytest-cov
           pip install pyyaml
+          make install
+
 
       - name: start tests and linter
         run: |
