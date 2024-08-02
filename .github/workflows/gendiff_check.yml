@@ -18,7 +18,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install poetry
-          poetry add pytest-cov
           make install
 
 
