@@ -20,7 +20,7 @@ jobs:
           pip install poetry
           make install
           poetry add pytest-cov
-          pip install pyYAML
+          pip install pyyaml
 
       - name: start tests and linter
         run: |
