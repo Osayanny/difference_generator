@@ -28,7 +28,6 @@ def stylish(diff):
                 lines.append(f'{curent_ident}+ {node['key']}: {node['value']}')
             elif node['status'] == 'deleted':
                 lines.append(f'{curent_ident}- {node['key']}: {node['value']}')
-                print(type(node['value']))
     result = itertools.chain('{', lines, [curent_ident + '}'])
     return '\n'.join(result)
             
