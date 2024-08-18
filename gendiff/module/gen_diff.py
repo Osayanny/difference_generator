@@ -73,4 +73,4 @@ def generate_diff(first_path, second_path, format='stylish'):
 
     diff = make_diff(first_data, second_data)
     if format == 'stylish':
-        return diff
+        return stylish(diff)
