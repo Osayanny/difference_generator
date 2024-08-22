@@ -6,7 +6,7 @@ from gendiff.module.stylish import stylish
 def parse_file(path):
     if path.endswith('.json'):
         return json.load(open(path))
-    elif path.endswith('.yml', '.yaml'):
+    elif path.endswith('.yml') or path.endswith('.yaml'):
         return yaml.safe_load(open(path))
 
 
@@ -18,12 +18,15 @@ def make_diff(first_data, second_data):
         keys = first_data.keys() | second_data.keys()
 
         for key in sorted(keys):
-            if type(first_data.get(key)) == dict and type(second_data.get(key)) == dict:
+            if isinstance(first_data.get(key), dict) and \
+                    isinstance(second_data.get(key), dict):
                 diff = {'status': 'nested',
                         'key': key,
                         'depth': depth,
-                        'children': walk(first_data[key], second_data[key], depth + 1)   
-                }
+                        'children': walk(first_data[key],
+                                         second_data[key],
+                                         depth + 1)
+                        }
                 result.append(diff)
             else:
                 if key in first_data and key in second_data:
@@ -32,7 +35,7 @@ def make_diff(first_data, second_data):
                                 'key': key,
                                 'depth': depth,
                                 'value': first_data[key]
-                        }        
+                                }
                         result.append(diff)
 
                     else:
@@ -63,10 +66,9 @@ def make_diff(first_data, second_data):
                     result.append(diff)
 
         return result
-    return walk(first_data, second_data, 1)
-                
+    return walk(first_data, second_data, 0)
 
-    
+
 def generate_diff(first_path, second_path, format='stylish'):
     first_data = parse_file(first_path)
     second_data = parse_file(second_path)
