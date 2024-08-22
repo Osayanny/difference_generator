@@ -1,3 +1,4 @@
+import pytest
 import os
 from gendiff.module.gen_diff import generate_diff, parse_file
 
@@ -25,17 +26,20 @@ def test_parse_file():
   assert expect == yml_result
   
 
-plain_data = read(get_fixture_path('plain.txt'))
+plain_expect = read(get_fixture_path('plain.txt'))
+nested_expect = read(get_fixture_path('nested.txt'))
+plain_data_json = generate_diff('tests/fixtures/json/plain1.json', 'tests/fixtures/json/plain2.json')
+plain_data_yml = generate_diff('tests/fixtures/yaml/plain1.yml', 'tests/fixtures/yaml/plain2.yml')
 
 
-def test_generate_diff_with_plain_json():
-  expected = plain_data
-  result = generate_diff('tests/fixtures/json/plain1.json', 'tests/fixtures/json/plain2.json')
-  assert expected == result
+@pytest.mark.parametrize('test_input,expected', [(plain_data_json, plain_expect), (plain_data_yml, plain_expect)])
+def test_generate_diff_with_plain(test_input, expected):
+  assert test_input == expected
 
 
-def test_gendiff_with_plain_yml():
-  expected = plain_data
-  result = generate_diff('tests/fixtures/yaml/plain1.yml', 'tests/fixtures/yaml/plain2.yml')
-  assert expected == result
+nested_data_json = generate_diff('tests/fixtures/json/nested1.json', 'tests/fixtures/json/nested2.json')
+nested_data_yml = generate_diff('tests/fixtures/yaml/nested1.yml', 'tests/fixtures/yaml/nested2.yml')
 
+@pytest.mark.parametrize('test_input,expected', [(nested_data_json, nested_expect), (nested_data_yml, nested_expect)])
+def test_gendiff_with_nested(test_input, expected):
+  assert test_input == expected
