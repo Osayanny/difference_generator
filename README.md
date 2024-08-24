@@ -3,5 +3,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/e8b0d54a85c32b584e93/maintainability)](https://codeclimate.com/github/Osayanny/python-project-50/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e8b0d54a85c32b584e93/test_coverage)](https://codeclimate.com/github/Osayanny/python-project-50/test_coverage)
 ---
-Difference generator with two json files:
-    [![asciinema](https://asciinema.org/a/1jpCAlykmHqBylmaoOBH7ySum)](https://asciinema.org/a/1jpCAlykmHqBylmaoOBH7ySum)
+How it work:
+    [![With plain structures](https://asciinema.org/a/1jpCAlykmHqBylmaoOBH7ySum)](https://asciinema.org/a/1jpCAlykmHqBylmaoOBH7ySum)
+    [![With nested structures](https://asciinema.org/a/xtv4kms6Irv01zshl3FHawOkQ)](https://asciinema.org/a/xtv4kms6Irv01zshl3FHawOkQ)
