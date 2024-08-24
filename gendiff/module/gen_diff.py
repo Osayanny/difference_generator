@@ -10,69 +10,55 @@ def parse_file(path):
         return yaml.safe_load(open(path))
 
 
-def make_diff(first_data, second_data):
+def get_node_diff(status, key, depth, **kwargs):
+    node_diff = {
+        'status': status,
+        'key': key,
+        'depth': depth}
+    node_diff.update(**kwargs)
+    return node_diff
 
-    def walk(first_data, second_data, depth):
-        result = []
 
-        keys = first_data.keys() | second_data.keys()
+def make_diff(first_data, second_data, depth): # noqa
 
-        for key in sorted(keys):
-            if isinstance(first_data.get(key), dict) and \
-                    isinstance(second_data.get(key), dict):
-                diff = {'status': 'nested',
-                        'key': key,
-                        'depth': depth,
-                        'children': walk(first_data[key],
-                                         second_data[key],
-                                         depth + 1)
-                        }
-                result.append(diff)
+    result = []
+
+    keys = first_data.keys() | second_data.keys()
+
+    for key in sorted(keys):
+        first_value = first_data.get(key)
+        second_value = second_data.get(key)
+
+        if isinstance(first_value, dict) and \
+                isinstance(second_value, dict):
+            child_diff = make_diff(first_value, second_value, depth + 1)
+            diff = get_node_diff('nested', key, depth, children=child_diff)
+
+        elif key in first_data and key in second_data:
+            if first_data[key] == second_data[key]:
+                diff = get_node_diff('unchanged', key, depth, value=first_value)
+
             else:
-                if key in first_data and key in second_data:
-                    if first_data[key] == second_data[key]:
-                        diff = {'status': 'unchanged',
-                                'key': key,
-                                'depth': depth,
-                                'value': first_data[key]
-                                }
-                        result.append(diff)
+                diff = get_node_diff('changed',
+                                     key,
+                                     depth,
+                                     old_value=first_value,
+                                     new_value=second_value)
 
-                    else:
-                        diff = {'status': 'changed',
-                                'key': key,
-                                'depth': depth,
-                                'old_value': first_data[key],
-                                'new_value': second_data[key],
-                                }
-                        result.append(diff)
+        elif key in first_data:
+            diff = get_node_diff('deleted', key, depth, value=first_value)
 
-                elif key in first_data:
-                    diff = {'status': 'deleted',
-                            'key': key,
-                            'depth': depth,
-                            'value': first_data[key]
-                            }
+        elif key in second_data:
+            diff = get_node_diff('added', key, depth, value=second_value)
 
-                    result.append(diff)
-
-                elif key in second_data:
-                    diff = {'status': 'added',
-                            'key': key,
-                            'depth': depth,
-                            'value': second_data[key]
-                            }
-
-                    result.append(diff)
-
-        return result
-    return walk(first_data, second_data, 0)
+        result.append(diff)
+    return result
 
 
 def generate_diff(first_path, second_path, format='stylish'):
     first_data = parse_file(first_path)
     second_data = parse_file(second_path)
 
-    diff = make_diff(first_data, second_data)
+    diff = make_diff(first_data, second_data, 0)
     if format == 'stylish':
         return stylish(diff)
