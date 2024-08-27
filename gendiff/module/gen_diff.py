@@ -1,6 +1,7 @@
 import json
 import yaml
-from gendiff.module.stylish import stylish
+from gendiff.module.stylish import get_stylish
+from gendiff.module.plain import get_plain
 
 
 def parse_file(path):
@@ -61,4 +62,6 @@ def generate_diff(first_path, second_path, format='stylish'):
 
     diff = make_diff(first_data, second_data, 0)
     if format == 'stylish':
-        return stylish(diff)
+        return get_stylish(diff)
+    elif format == 'plain':
+        return get_plain(diff)
