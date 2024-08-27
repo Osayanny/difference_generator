@@ -4,5 +4,9 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e8b0d54a85c32b584e93/test_coverage)](https://codeclimate.com/github/Osayanny/python-project-50/test_coverage)
 ---
 How it work:
-    [![With plain structures](https://asciinema.org/a/1jpCAlykmHqBylmaoOBH7ySum)](https://asciinema.org/a/1jpCAlykmHqBylmaoOBH7ySum)
-    [![With nested structures](https://asciinema.org/a/xtv4kms6Irv01zshl3FHawOkQ)](https://asciinema.org/a/xtv4kms6Irv01zshl3FHawOkQ)
+stylish formatter:
+* [![With plain structures](https://asciinema.org/a/1jpCAlykmHqBylmaoOBH7ySum)](https://asciinema.org/a/1jpCAlykmHqBylmaoOBH7ySum)
+* [![With nested structures](https://asciinema.org/a/xtv4kms6Irv01zshl3FHawOkQ)](https://asciinema.org/a/xtv4kms6Irv01zshl3FHawOkQ)
+
+plain formatter:
+* [![With plain and nested structures](https://asciinema.org/a/2xYeuAkSHq7pzNBBebkM4i8OH)](https://asciinema.org/a/2xYeuAkSHq7pzNBBebkM4i8OH)
