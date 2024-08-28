@@ -13,4 +13,4 @@ plain formatter:
 * [![With plain and nested structures](https://asciinema.org/a/2xYeuAkSHq7pzNBBebkM4i8OH)](https://asciinema.org/a/2xYeuAkSHq7pzNBBebkM4i8OH)
 
 json formatter:
-*[![For json](https://asciinema.org/a/lLjYKvabKqw2jq60LrExPVsW4)](https://asciinema.org/a/lLjYKvabKqw2jq60LrExPVsW4)
+* [![For json](https://asciinema.org/a/lLjYKvabKqw2jq60LrExPVsW4)](https://asciinema.org/a/lLjYKvabKqw2jq60LrExPVsW4)
