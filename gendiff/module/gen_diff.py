@@ -65,3 +65,5 @@ def generate_diff(first_path, second_path, format='stylish'):
         return get_stylish(diff)
     elif format == 'plain':
         return get_plain(diff)
+    elif format == 'json':
+        return json.dumps(diff)
