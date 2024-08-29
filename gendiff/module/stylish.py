@@ -64,6 +64,6 @@ def get_stylish(diff): # noqa
             str_value = dict_to_str(node['value'], deep_ident_size)
             line = f'{deep_ident}- {name}: {str_value}'
             lines.append(line)
-            
+
     result = itertools.chain('{', lines, [curent_ident + '}'])
     return '\n'.join(result)
