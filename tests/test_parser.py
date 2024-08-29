@@ -1,4 +1,4 @@
-from gendiff.module.parser import make_parser, parse_args
+from gendiff.module.parser import make_parser
 
 
 def test_make_parser():
