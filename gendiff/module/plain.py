@@ -24,6 +24,7 @@ def get_plain(diff, path=''):
             first_part = f"Property '{path}{name}' was updated. "
             second_part = f"From {format_old} to {format_new}"
             line = first_part + second_part
+            
         elif node['status'] == 'added':
             format_val = formating_value(node['value'])
             line = f"Property '{path}{name}' was added with value: {format_val}"
