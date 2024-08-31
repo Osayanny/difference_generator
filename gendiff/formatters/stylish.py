@@ -6,25 +6,20 @@ _IDENT = 2
 _CHAR = ' '
 
 
-def to_str(value):
+def to_str(value, ident_size):
     if value is None:
         return 'null'
     elif isinstance(value, bool):
         return str(value).lower()
-    return str(value)
-
-
-def dict_to_str(value, ident_size):
-
-    if not isinstance(value, dict):
-        return to_str(value)
+    elif not isinstance(value, dict):
+        return str(value)
 
     lines = []
     ident = _CHAR * (ident_size + _SPACECOUNT)
     brackets_ident = _CHAR * ident_size
 
     for key in value.keys():
-        str_value = dict_to_str(value[key], ident_size + _SPACECOUNT)
+        str_value = to_str(value[key], ident_size + _SPACECOUNT)
         lines.append(f'{ident}{key}: {str_value}')
     result = itertools.chain('{', lines, [brackets_ident + '}'])
     return '\n'.join(result)
@@ -44,24 +39,24 @@ def get_stylish(diff): # noqa
             lines.append(line)
 
         elif node['status'] == 'unchanged':
-            str_value = dict_to_str(node['value'], deep_ident_size)
+            str_value = to_str(node['value'], deep_ident_size)
             line = f'{deep_ident}  {name}: {str_value}'
             lines.append(line)
 
         elif node['status'] == 'changed':
-            old_str_value = dict_to_str(node['old_value'], deep_ident_size)
-            new_str_value = dict_to_str(node['new_value'], deep_ident_size)
+            old_str_value = to_str(node['old_value'], deep_ident_size)
+            new_str_value = to_str(node['new_value'], deep_ident_size)
             old_line = (f'{deep_ident}- {name}: {old_str_value}')
             new_line = (f'{deep_ident}+ {name}: {new_str_value}')
             lines.extend([old_line, new_line])
 
         elif node['status'] == 'added':
-            str_value = dict_to_str(node['value'], deep_ident_size)
+            str_value = to_str(node['value'], deep_ident_size)
             line = f'{deep_ident}+ {name}: {str_value}'
             lines.append(line)
 
         elif node['status'] == 'deleted':
-            str_value = dict_to_str(node['value'], deep_ident_size)
+            str_value = to_str(node['value'], deep_ident_size)
             line = f'{deep_ident}- {name}: {str_value}'
             lines.append(line)
 
