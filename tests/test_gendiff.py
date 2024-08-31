@@ -1,6 +1,6 @@
 import pytest
 import os
-from gendiff.module.gen_diff import generate_diff, parse_file
+from gendiff.gen_diff import generate_diff, parse_file
 
 
 def get_fixture_path(file_name):
@@ -14,53 +14,40 @@ def read(file_path):
         return result
 
 
-def test_parse_file():
-    expect = {
-        'host': 'hexlet.io',
-        'timeout': 50,
-        'proxy': '123.234.53.22',
-        "follow": False
-    }
-    json_result = parse_file('tests/fixtures/json/plain1.json')
-    yml_result = parse_file('tests/fixtures/yaml/plain1.yml')
-
-    assert expect == json_result
-    assert expect == yml_result
+simple_json_data_paths =['tests/fixtures/json/simple_1.json', 'tests/fixtures/json/simple_2.json']
+nested_json_data_paths =['tests/fixtures/json/nested_1.json', 'tests/fixtures/json/nested_2.json']
+simple_yaml_data_paths =['tests/fixtures/yaml/simple_1.yml', 'tests/fixtures/yaml/simple_2.yml']
+nested_yaml_data_paths =['tests/fixtures/yaml/nested_1.yml', 'tests/fixtures/yaml/nested_2.yml']
 
 
-plain_expect = read(get_fixture_path('plain.txt')).split('\n\n\n\n')
-stylish_expect = read(get_fixture_path('stylish.txt')).split('\n\n\n\n')
-json_expect = read(get_fixture_path('json.txt')).split('\n\n\n\n')
+stylish_simple_expect = read(get_fixture_path('stylish_simple.txt'))
+stylish_nested_expect = read(get_fixture_path('stylish_nested.txt'))
 
 
-stylish_plain_data_json = generate_diff('tests/fixtures/json/plain1.json', 'tests/fixtures/json/plain2.json')
-stylish_plain_data_yml = generate_diff('tests/fixtures/yaml/plain1.yml', 'tests/fixtures/yaml/plain2.yml')
-stylish_nested_data_json = generate_diff('tests/fixtures/json/nested1.json', 'tests/fixtures/json/nested2.json')
-stylish_nested_data_yml = generate_diff('tests/fixtures/yaml/nested1.yml', 'tests/fixtures/yaml/nested2.yml')
+@pytest.mark.parametrize('test_input,expected', [(simple_json_data_paths, stylish_simple_expect), (simple_yaml_data_paths, stylish_simple_expect), (nested_json_data_paths, stylish_nested_expect), (nested_yaml_data_paths, stylish_nested_expect)])
+def test_gendiff_with_stylish(test_input, expected):
+    path_1, path_2 = test_input
+    result = generate_diff(path_1, path_2, 'stylish')
+    assert result == expected
 
 
-@pytest.mark.parametrize('test_input,expected', [(stylish_plain_data_json, stylish_expect[0]), (stylish_plain_data_yml, stylish_expect[0]), (stylish_nested_data_json, stylish_expect[1]), (stylish_nested_data_yml, stylish_expect[1])])
-def test_gendiff_with_stylish_format(test_input, expected):
-    assert test_input == expected
+plain_simple_expect = read(get_fixture_path('plain_simple.txt'))
+plain_nested_expect = read(get_fixture_path('plain_nested.txt'))
 
 
-plain_data_json = generate_diff('tests/fixtures/json/plain1.json', 'tests/fixtures/json/plain2.json', 'plain')
-plain_data_yml = generate_diff('tests/fixtures/json/plain1.json', 'tests/fixtures/json/plain2.json', 'plain')
-plain_nested_data_json = generate_diff('tests/fixtures/json/nested1.json', 'tests/fixtures/json/nested2.json', 'plain')
-plain_nested_data_yml = generate_diff('tests/fixtures/json/nested1.json', 'tests/fixtures/json/nested2.json', 'plain')
+@pytest.mark.parametrize('test_input,expected', [(simple_json_data_paths, plain_simple_expect), (simple_yaml_data_paths, plain_simple_expect), (nested_json_data_paths, plain_nested_expect), (nested_yaml_data_paths, plain_nested_expect)])
+def test_generate_diff_with_plain(test_input, expected):
+    path_1, path_2 = test_input
+    result = generate_diff(path_1, path_2, 'plain')
+    assert result == expected
 
 
-@pytest.mark.parametrize('test_input,expected', [(plain_data_json, plain_expect[0]), (plain_data_yml, plain_expect[0]), (plain_nested_data_json, plain_expect[1]), (plain_nested_data_yml, plain_expect[1])])
-def test_generate_diff_with_plain_format(test_input, expected):
-    assert test_input == expected
+json_simple_expect = read(get_fixture_path('json_simple.txt'))
+json_nested_expect = read(get_fixture_path('json_nested.txt'))
 
 
-json_plain_data_json = generate_diff('tests/fixtures/json/plain1.json', 'tests/fixtures/json/plain2.json', 'json')
-json_plain_data_yml = generate_diff('tests/fixtures/json/plain1.json', 'tests/fixtures/json/plain2.json', 'json')
-json_nested_data_json = generate_diff('tests/fixtures/json/nested1.json', 'tests/fixtures/json/nested2.json', 'json')
-json_nested_data_yml = generate_diff('tests/fixtures/json/nested1.json', 'tests/fixtures/json/nested2.json', 'json')
-
-
-@pytest.mark.parametrize('test_input,expected', [(json_plain_data_json, json_expect[0]), (json_plain_data_yml, json_expect[0]), (json_nested_data_json, json_expect[1]), (json_nested_data_yml, json_expect[1])])
-def test_gendiff_with_json_format(test_input, expected):
-    assert test_input == expected
+@pytest.mark.parametrize('test_input,expected', [(simple_json_data_paths, json_simple_expect), (simple_yaml_data_paths, json_simple_expect), (nested_json_data_paths, json_nested_expect), (nested_yaml_data_paths, json_nested_expect)])
+def test_gendiff_with_json(test_input, expected):
+    path_1, path_2 = test_input
+    result = generate_diff(path_1, path_2, 'json')
+    assert result == expected
