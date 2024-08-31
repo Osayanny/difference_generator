@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import parser
-import gen_diff
+from gendiff import gen_diff
+from gendiff import parser
 
 
 def main():
