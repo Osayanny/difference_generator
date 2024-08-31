@@ -1,6 +1,6 @@
 import pytest
 import os
-from gendiff.gen_diff import generate_diff, parse_file
+from gendiff.gen_diff import generate_diff
 
 
 def get_fixture_path(file_name):
@@ -14,10 +14,10 @@ def read(file_path):
         return result
 
 
-simple_json_data_paths =['tests/fixtures/json/simple_1.json', 'tests/fixtures/json/simple_2.json']
-nested_json_data_paths =['tests/fixtures/json/nested_1.json', 'tests/fixtures/json/nested_2.json']
-simple_yaml_data_paths =['tests/fixtures/yaml/simple_1.yml', 'tests/fixtures/yaml/simple_2.yml']
-nested_yaml_data_paths =['tests/fixtures/yaml/nested_1.yml', 'tests/fixtures/yaml/nested_2.yml']
+simple_json_data_paths = ['tests/fixtures/json/simple_1.json', 'tests/fixtures/json/simple_2.json']
+nested_json_data_paths = ['tests/fixtures/json/nested_1.json', 'tests/fixtures/json/nested_2.json']
+simple_yaml_data_paths = ['tests/fixtures/yaml/simple_1.yml', 'tests/fixtures/yaml/simple_2.yml']
+nested_yaml_data_paths = ['tests/fixtures/yaml/nested_1.yml', 'tests/fixtures/yaml/nested_2.yml']
 
 
 stylish_simple_expect = read(get_fixture_path('stylish_simple.txt'))
