@@ -1,3 +1,4 @@
+import os
 import json
 import yaml
 from gendiff.formatters.stylish import get_stylish
@@ -6,9 +7,10 @@ from gendiff.formatters.json import get_json
 
 
 def parse_file(path):
-    if path.endswith('.json'):
+    _, ext = os.path.splitext(path)
+    if ext == '.json':
         return json.load(open(path))
-    elif path.endswith('.yml') or path.endswith('.yaml'):
+    elif ext == '.yaml' or ext == '.yml':
         return yaml.safe_load(open(path))
 
 
@@ -21,7 +23,7 @@ def get_node_diff(status, key, depth, **kwargs):
     return node_diff
 
 
-def make_diff(first_data, second_data, depth): # noqa
+def make_diff(first_data, second_data, depth=0): # noqa
 
     result = []
 
@@ -61,7 +63,7 @@ def generate_diff(first_path, second_path, format='stylish'):
     first_data = parse_file(first_path)
     second_data = parse_file(second_path)
 
-    diff = make_diff(first_data, second_data, 0)
+    diff = make_diff(first_data, second_data)
     if format == 'stylish':
         return get_stylish(diff)
     elif format == 'plain':
