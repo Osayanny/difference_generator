@@ -42,6 +42,3 @@ def test_gendiff(test_input, expected):
     expect = read(get_fixture_path(expected))
     result = generate_diff(path_1, path_2, format)
     assert result == expect
-
-
-
