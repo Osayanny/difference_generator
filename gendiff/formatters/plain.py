@@ -12,35 +12,36 @@ def to_str(value):
     return str(value)
 
 
-def get_plain(diff): # noqa
+def make_plain(diff, path=''): # noqa
+    lines = []
+    for node in diff:
+        name = node['key']
 
-    def inner(diff, path=''):
-        lines = []
-        for node in diff:
-            name = node['key']
+        if 'children' in node.keys():
+            line = make_plain(node['children'], path + name + '.')
 
-            if 'children' in node.keys():
-                line = inner(node['children'], path + name + '.')
+        elif node['status'] == 'changed':
+            format_old = to_str(node['old_value'])
+            format_new = to_str(node['new_value'])
+            status = f"Property '{path}{name}' was updated. "
+            value = f"From {format_old} to {format_new}"
+            line = status + value
 
-            elif node['status'] == 'changed':
-                format_old = to_str(node['old_value'])
-                format_new = to_str(node['new_value'])
-                status = f"Property '{path}{name}' was updated. "
-                value = f"From {format_old} to {format_new}"
-                line = status + value
+        elif node['status'] == 'added':
+            format_val = to_str(node['value'])
+            status = f"Property '{path}{name}' was added with value: "
+            line = status + format_val
 
-            elif node['status'] == 'added':
-                format_val = to_str(node['value'])
-                status = f"Property '{path}{name}' was added with value: "
-                line = status + format_val
+        elif node['status'] == 'deleted':
+            line = f"Property '{path}{name}' was removed"
 
-            elif node['status'] == 'deleted':
-                line = f"Property '{path}{name}' was removed"
+        else:
+            continue
 
-            else:
-                continue
+        lines.append(line)
 
-            lines.append(line)
+    return '\n'.join(lines)
 
-        return '\n'.join(lines)
-    return inner(diff, '')
+
+def get_plain(diff):
+    return make_plain(diff)
